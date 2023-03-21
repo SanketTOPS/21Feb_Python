@@ -1,8 +1,0 @@
-ID=12
-Name=Sanket
-ID=23
-Name=Nirav
-ID=34
-Name=Mitesh
-ID=1
-Name=Ashok
