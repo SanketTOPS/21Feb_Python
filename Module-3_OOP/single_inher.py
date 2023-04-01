@@ -15,3 +15,4 @@ class son(father):
 sn=son()
 sn.getdata()
 sn.printdata()
+

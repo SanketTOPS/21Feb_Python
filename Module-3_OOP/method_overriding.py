@@ -6,10 +6,9 @@ class screen1:
 class screen2(screen1):
     def getdata(self, id, name):
         return super().getdata(id, name)
-   
 
 s1=screen1()
 s2=screen2()
+s1.getdata(1,'Nirav')
 
-s1.getdata(1,'Sanket')
-s2.getdata(2,'Ashok')
+s2.getdata(2,'Sanket')

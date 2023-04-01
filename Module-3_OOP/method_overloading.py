@@ -8,4 +8,4 @@ class studinfo:
     
 
 st=studinfo()
-st.getdata()
+st.getdata(1,'sanket')
