@@ -1,8 +1,0 @@
-1abc2abcid : 1
-name : a
-subject : b
-city : c
-id : 2
-name : a
-subject : d
-city : f
