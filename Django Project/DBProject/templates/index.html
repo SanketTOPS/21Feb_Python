@@ -9,5 +9,16 @@
 <body style="background-color: coral;">
     <center><h1>Welcome to Database App</h1></center>
     <hr>
+    <form method="post">
+        {% csrf_token %}
+        <input type="text" placeholder="Name" name="name"><br><br>
+        <input type="text" placeholder="City" name="city"><br><br>
+        <input type="email" placeholder="Email" name="email" ><br><br>
+        <input type="date" name="dob"><br><br>
+        <input type="number" placeholder="Mobile" name="mobile"><br><br>
+        <textarea placeholder="Address" name="address"></textarea><br><br>
+        <input type="submit" value="Save">
+        <input type="reset">
+    </form>
 </body>
 </html>
