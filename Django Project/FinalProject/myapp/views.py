@@ -1,5 +1,5 @@
 from django.shortcuts import render,redirect
-from .forms import signupForm
+from .forms import signupForm,updateForm
 from .models import userSignup
 from django.contrib.auth import logout
 
@@ -17,11 +17,14 @@ def index(request):
 
             unm=request.POST['username']
             pas=request.POST['password']
+            userid=userSignup.objects.get(username=unm)
+            print("ID:",userid.id)
 
             user=userSignup.objects.filter(username=unm,password=pas)
             if user: #true
                 print("Login Successfully!")
                 request.session['user']=unm #create a session
+                request.session['userid']=userid.id
                 return redirect('notes')
             else:
                 print("Error!Login Faild...")
@@ -38,7 +41,21 @@ def contact(request):
     return render(request,'contact.html')
 
 def profile(request):
-    return render(request,'profile.html')
+    user=request.session.get('user')
+    userid=request.session.get('userid')
+    cuser=userSignup.objects.get(id=userid)
+    if request.method=='POST':
+        updateuser=updateForm(request.POST)
+        if updateuser.is_valid():
+            updateuser=updateForm(request.POST,instance=cuser)
+            updateuser.save()
+            print("Your profile has been updated!")
+            #return redirect('notes')
+            userlogout(request)
+            return redirect('/')
+        else:
+            print(updateuser.errors)
+    return render(request,'profile.html',{'user':user,'cuser':userSignup.objects.get(id=userid)})
 
 def userlogout(request):
     logout(request)
