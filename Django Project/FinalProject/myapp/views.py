@@ -1,5 +1,5 @@
 from django.shortcuts import render,redirect
-from .forms import signupForm,updateForm
+from .forms import signupForm,updateForm,notesForm
 from .models import userSignup
 from django.contrib.auth import logout
 
@@ -32,6 +32,13 @@ def index(request):
 
 def notes(request):
     user=request.session.get('user')
+    if request.method=='POST':
+        newnotes=notesForm(request.POST,request.FILES)
+        if newnotes.is_valid():
+            newnotes.save()
+            print("Your notes has been uploaded!")
+        else:
+            print(newnotes.errors)
     return render(request,'notes.html',{'user':user})
 
 def about(request):
