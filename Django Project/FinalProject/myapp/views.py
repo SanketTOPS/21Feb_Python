@@ -1,7 +1,9 @@
 from django.shortcuts import render,redirect
-from .forms import signupForm,updateForm,notesForm
+from .forms import signupForm,updateForm,notesForm,feedbackForm
 from .models import userSignup
 from django.contrib.auth import logout
+from django.core.mail import send_mail
+from FinalProject import settings
 
 # Create your views here.
 def index(request):
@@ -45,6 +47,21 @@ def about(request):
     return render(request,'about.html')
 
 def contact(request):
+    if request.method=='POST':
+        newfeedback=feedbackForm(request.POST)
+        if newfeedback.is_valid():
+            newfeedback.save()
+            print("Your feedback submitted!")
+
+            #Sending Mail
+            sub="Thank you!"
+            msg=f"Dear User!\n\nWe have recived your feedback, thank you for connecting.\n\nContact on +91 9724799469 | sanket.tops@gmail.com"
+            from_id=settings.EMAIL_HOST_USER
+            #to_id=['asodariyarutvi@gmail.com','kp21043@gmail.com','naimishramani448@gmail.com','vasiyarabhishek141@gmail.com','preetisharma.1897@gmail.com']
+            to_id=[request.POST['email']]
+            send_mail(subject=sub,message=msg,from_email=from_id,recipient_list=to_id)
+        else:
+            print(newfeedback.errors)
     return render(request,'contact.html')
 
 def profile(request):
