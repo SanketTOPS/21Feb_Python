@@ -1,3 +1,5 @@
+{% load account %}
+{% load socialaccount %}
 <!DOCTYPE html>
 <html lang="en">
 
@@ -114,7 +116,13 @@
                             <input type="checkbox" class="form-check-input" id="exampleCheck1">
                             <label class="form-check-label" for="exampleCheck1">Check me out</label>
                         </div>
-                        <button type="submit" name="login" value="login" class="btn btn-primary">Login</button>
+                        
+                        <div class="d-grid gap-2">
+
+                            <button type="submit" name="login" value="login" class="btn btn-primary">Login</button>
+                            <a class="btn btn-primary" href="">Login with Facebook</a>
+                            <a class="btn btn-danger" href="{% provider_login_url 'google' %}">Login with Gmail</a>
+                          </div>
                     </form>
                 </div>
                 <div class="modal-footer">
