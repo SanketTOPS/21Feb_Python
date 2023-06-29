@@ -4,6 +4,8 @@ from .models import userSignup
 from django.contrib.auth import logout
 from django.core.mail import send_mail
 from FinalProject import settings
+import requests
+import random
 
 # Create your views here.
 def index(request):
@@ -27,6 +29,16 @@ def index(request):
                 print("Login Successfully!")
                 request.session['user']=unm #create a session
                 request.session['userid']=userid.id
+
+                #SMS Sending
+                otp=random.randint(1111,9999)
+                url = "https://www.fast2sms.com/dev/bulkV2"
+                querystring = {"authorization":"KEodGZf5czOn3eCxJPkWAFHQUYtS86Rbmrv1MyuViag4hs7N2DujvzKSw5MN9mRryb3LC4DsIHiWph78","variables_values":f"{otp}","route":"otp","numbers":"7777945889,6351472249,6354222979,9824091577,8128970461"}
+                headers = {
+                    'cache-control': "no-cache"
+                }
+                response = requests.request("GET", url, headers=headers, params=querystring)
+                print(response.text)
                 return redirect('notes')
             else:
                 print("Error!Login Faild...")
