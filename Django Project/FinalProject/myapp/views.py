@@ -6,15 +6,23 @@ from django.core.mail import send_mail
 from FinalProject import settings
 import requests
 import random
+from django.contrib.auth.decorators import login_required
+
 
 # Create your views here.
 def index(request):
     if request.method=='POST':
         if request.POST.get('signup')=='signup':
+            username=""
             newuser=signupForm(request.POST)
             if newuser.is_valid():
-                newuser.save()
-                print("Signup Successfully!")
+                username=newuser.cleaned_data.get('username')
+                try:
+                    cuser=userSignup.objects.get(username=username)
+                    print("Username is already exists!")
+                except userSignup.DoesNotExist:
+                    newuser.save()
+                    print("Signup Successfully!")
             else:
                 print(newuser.errors)
         elif request.POST.get('login')=='login':
@@ -44,6 +52,7 @@ def index(request):
                 print("Error!Login Faild...")
     return render(request,'index.html')
 
+@login_required(redirect_field_name="index")
 def notes(request):
     user=request.session.get('user')
     if request.method=='POST':
