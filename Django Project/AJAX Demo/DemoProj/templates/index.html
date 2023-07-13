@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Welcome</title>
+</head>
+<body style="background-color: aquamarine;">
+    <center><h1>Welcome to Django with AJAX</h1></center>
+    <form method="post" id="stform">
+        {% csrf_token %}
+        <input type="text" placeholder="Name" name="name" id="name"><br><br>
+        <input type="text" placeholder="Subject" name="sub" id="sub"><br><br>
+        <input type="text" placeholder="city" name="city" id="city"><br><br>
+        <input type="submit" value="Save">
+    </form>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.js" 
+          integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc=" 
+            crossorigin="anonymous"></script>
+  
+    <script type="text/javascript">
+    $(document).on('submit','#stform',function(e){
+        e.preventDefault();
+        $.ajax({
+            type:'POST',
+            url:'{% url "index" %}',
+            data:
+            {
+                name:$("#name").val(),
+                sub:$("#sub").val(),
+                city:$("#city").val(),
+                csrfmiddlewaretoken:$('input[name=csrfmiddlewaretoken]').val()
+            },
+            success:function(){
+                  alert('Saved');
+                    }
+            })
+        });
+    </script>
+</body>
+</html>

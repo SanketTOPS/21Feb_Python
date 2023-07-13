@@ -1,3 +1,4 @@
+
 stdata=dict()
 
 key=['id','name','sub','city']
@@ -8,7 +9,7 @@ if n>len(key):
     print("Error!")
 else:
     for i in range(n):
-        value=input(f"Enter a value for {key[i]} :")
+        value=input(f"Enter a value for {key[i]}:")
         stdata[key[i]]=value
 
     print(stdata)
