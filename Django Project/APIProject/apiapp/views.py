@@ -27,12 +27,16 @@ def getid(request,id):
     serial=studSerializers(stid)
     return Response(serial.data,status=status.HTTP_200_OK)
 
-@api_view(['DELETE'])
+@api_view(['GET','DELETE'])
 def deleteid(request,id):
     try:
         stid=studInfo.objects.get(id=id)
     except studInfo.DoesNotExist:
         return Response(status=status.HTTP_404_NOT_FOUND)
+    if request.method=='GET':
+        stid=studInfo.objects.get(id=id)
+        userSerial=studSerializers(stid)
+        return Response(userSerial.data,status=status.HTTP_200_OK)
     studInfo.delete(stid)
     return Response(status=status.HTTP_202_ACCEPTED)
 
@@ -45,3 +49,24 @@ def savedata(request):
             return Response(status=status.HTTP_201_CREATED)
         else:
             return Response(status=status.HTTP_400_BAD_REQUEST)
+    
+@api_view(['GET','PUT'])
+def updatedata(request,id):
+    try:
+        stid=studInfo.objects.get(id=id)
+    except studInfo.DoesNotExist:
+        return Response(status=status.HTTP_404_NOT_FOUND)
+    if request.method=='GET':
+        stid=studInfo.objects.get(id=id)
+        userSerial=studSerializers(stid)
+        return Response(userSerial.data,status=status.HTTP_200_OK)
+    if request.method=='PUT':
+        userSerial=studSerializers(data=request.data,instance=stid)
+        if userSerial.is_valid():
+            userSerial.save()
+            return Response(status=status.HTTP_202_ACCEPTED)
+        else:
+            return Response(status=status.HTTP_400_BAD_REQUEST)
+    return Response(status=status.HTTP_400_BAD_REQUEST)
+    
+
